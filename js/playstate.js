@@ -59,8 +59,8 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState.create = function () {
-    this.game.world.resize(3000, 600);
-    this.game.add.tileSprite(0, 0, 3000, 600, 'background');
+    this.game.world.resize(3000, 1200);
+    this.game.add.tileSprite(0, 0, 3000, 1200, 'background');
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     this.game.input.onDown.add(this.toggleFull, this);
     this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
