@@ -90,6 +90,8 @@ define(['./spider', './hero'], function (Spider, Hero) {
       this.game.music.bgm.play();
     }
     this._createHud();
+
+    this.game.camera.flash(0x000000, 700);
   };
 
   PlayState.render = function() {
@@ -294,6 +296,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._onHeroVsDoor = function (hero, door) {
+    this.game.camera.fade(0x000000, 300);
     this.sfx.door.play();
     this.game.state.restart(true, false, {
       level: this.level + 1,
