@@ -9,7 +9,7 @@
         {"image": "grass:6x1", "x": 462, "y": 768},
         {"image": "grass:2x1", "x": 798, "y": 684}
     ],
-    "decoration": [
+    "decorations": [
         {"frame": 0, "x": 84, "y": 1104}, {"frame": 1, "x": 420, "y": 1104},
         {"frame": 3, "x": 672, "y": 1104}, {"frame": 4, "x": 595, "y": 1062},
         {"frame": 2, "x": 142, "y": 978}, {"frame": 1, "x": 168, "y": 978},

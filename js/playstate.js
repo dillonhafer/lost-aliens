@@ -26,6 +26,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     this.game.load.spritesheet('coin', 'images/coin_animated.png', 22, 22);
     this.game.load.spritesheet('door', 'images/door.png', 42, 66);
+    this.game.load.spritesheet('decoration', 'images/decor.png', 42, 42);
 
     this.game.load.audio('sfx:jump', 'audio/jump3.wav');
     this.game.load.audio('sfx:coin', 'audio/coin3.wav');
@@ -128,6 +129,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.platforms  = this.game.add.group();
     this.coins      = this.game.add.group();
     this.spiders    = this.game.add.group();
+    this.decorations = this.game.add.group();
     this.bgDecoration = this.game.add.group();
     this.enemyWalls = this.game.add.group();
     this.enemyWalls.visible = false;
@@ -137,6 +139,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     data.platforms.forEach(this._spawnPlatform, this);
     this._spawnCharacters({hero: data.hero, spiders: data.spiders});
     data.coins.forEach(this._spawnCoin, this);
+    data.decorations.forEach(this._spawnDecoration, this);
 
     const GRAVITY = 1200;
     this.game.physics.arcade.gravity.y = GRAVITY;
@@ -162,13 +165,21 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.door.body.allowGravity = false;
   };
 
+  PlayState._spawnDecoration = function(decoration) {
+    let sprite = this.decorations.create(decoration.x, decoration.y, 'decoration');
+    sprite.frame = decoration.frame;
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+  }
+
   PlayState._spawnCoin = function (coin) {
     let sprite = this.coins.create(coin.x, coin.y, 'coin');
     sprite.anchor.set(0.5, 0.5);
     sprite.animations.add('rotate', [0, 1, 2, 1], 6, true); // 6fps, looped
     sprite.animations.play('rotate');
     this.game.physics.enable(sprite);
-    sprite.body.allowGravity = false;
+    sprite.body.allowGravity = false
+    sprite.body.immovable = true;
   };
 
   PlayState._spawnCharacters = function (data) {
