@@ -1,7 +1,5 @@
-requirejs(["js/hero", "js/playstate"], function(util) {
-  const PlayState = require('js/playstate');
-  const game = new Phaser.Game(960, 600, Phaser.AUTO, 'game');
-
+requirejs(["js/playstate"], function(PlayState) {
+  let game = new Phaser.Game(960, 600, Phaser.AUTO, 'game');
   game.state.add('play', PlayState);
-  game.state.start('play');
+  game.state.start('play', true, false, {level: 0});
 });
