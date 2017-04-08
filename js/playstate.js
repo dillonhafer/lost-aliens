@@ -251,6 +251,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     const space2 = this.coinPickupCount > 9 ? "                    " : "                    ";
     this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives + space2 + this.time;
     this.keyIcon.frame = this.hasKey ? 1 : 0;
+    this.door.frame    = this.hasKey ? 1 : 0;
     this._handleCollisions();
     this._handleInput();
     if (this.hero.dead && (this.game.time.now - this.hero.deadAt > 5000)) {
