@@ -5,6 +5,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.json('level:1', 'data/level01.json');
 
     this.game.load.image('background', 'images/background.png');
+    this.game.load.image('background_green', 'images/background_green.png');
 
     this.game.load.image('ground', 'images/ground.png');
 
@@ -61,7 +62,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
   PlayState.create = function () {
     this.game.world.resize(3000, 1200);
-    this.game.add.tileSprite(0, 0, 3000, 1200, 'background');
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     this.game.input.onDown.add(this.toggleFull, this);
     this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
@@ -95,7 +95,8 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState.render = function() {
-    // this.game.debug.soundInfo(this.game.music.bgm, 10, 70);
+    // this.game.debug.input(this.game.input, 10, 70);
+    // this.game.debug.text("Duration: " + this.game.keys.activePointer.duration, 10, 70);
   };
 
   PlayState._createHud = function () {
@@ -128,6 +129,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._loadLevel = function (data) {
+    this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
     this.platforms  = this.game.add.group();
     this.coins      = this.game.add.group();
     this.spiders    = this.game.add.group();
@@ -239,8 +241,9 @@ define(['./spider', './hero'], function (Spider, Hero) {
       up: Phaser.KeyCode.up,
       down: Phaser.KeyCode.down,
     });
+
     this.keys.space.onDown.add(function () {
-      if (this.hero.jump()) {
+      if (this.hero.jump(600)) {
         this.sfx.jump.play();
       }
     }, this);

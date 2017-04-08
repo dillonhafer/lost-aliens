@@ -75,12 +75,11 @@ define(function () {
     this.body.velocity.y = -BOUNCE_SPEED;
   };
 
-  Hero.prototype.jump = function () {
-    const JUMP_SPEED = 600;
+  Hero.prototype.jump = function (speed) {
     const canJump = this.body.touching.down;
 
     if (canJump) {
-      this.body.velocity.y = -JUMP_SPEED;
+      this.body.velocity.y = -speed;
     }
 
     return canJump;
