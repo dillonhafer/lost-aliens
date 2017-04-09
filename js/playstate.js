@@ -156,7 +156,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.key.body.allowGravity = false;
     this.key.y -= 3;
     this.game.add.tween(this.key)
-      .to({y: this.key.y + 6}, 800, Phaser.Easing.Sinusoidal.InOut)
+      .to({y: this.key.y + 8}, 800, Phaser.Easing.Sinusoidal.InOut)
       .yoyo(true)
       .loop()
       .start();
