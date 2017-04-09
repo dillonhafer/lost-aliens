@@ -27,7 +27,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.spritesheet('hero', 'images/hero.png', 32, 42);
     this.game.load.spritesheet('coin', 'images/coin_animated.png', 22, 22);
     this.game.load.spritesheet('door', 'images/door.png', 42, 66);
-    this.game.load.spritesheet('decoration', 'images/decor.png', 42, 42);
 
     this.game.load.audio('sfx:jump', 'audio/jump3.wav');
     this.game.load.audio('sfx:coin', 'audio/coin3.wav');
