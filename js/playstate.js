@@ -5,18 +5,11 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.json('level:0', 'data/level00.json');
     this.game.load.json('level:1', 'data/level01.json');
 
+    this.game.load.atlasXML('tiles', 'sprites/tiles_spritesheet.png', 'sprites/tiles_spritesheet.xml');
+
     this.game.load.image('background', 'images/background.png');
     this.game.load.image('clouds', 'images/background_clouds.png');
     this.game.load.image('background_green', 'images/background_green.png');
-
-    this.game.load.image('ground', 'images/ground.png');
-
-    this.game.load.image('grass:8x1', 'images/grass_8x1.png');
-    this.game.load.image('grass:6x1', 'images/grass_6x1.png');
-    this.game.load.image('grass:4x1', 'images/grass_4x1.png');
-    this.game.load.image('grass:2x1', 'images/grass_2x1.png');
-    this.game.load.image('grass:1x1', 'images/grass_1x1.png');
-    this.game.load.image('brick:1x1', 'images/grass_1x1.png');
 
     this.game.load.image('font:numbers', 'images/numbers.png');
     this.game.load.image('icon:coin', 'images/coin_icon.png');
@@ -134,6 +127,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
   PlayState._loadLevel = function (data) {
     this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
+    this._spawnGround(data.ground);
     if (data.background === 'background') {
       this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
     }
@@ -221,7 +215,8 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._spawnPlatform = function (platform) {
-    let sprite = this.platforms.create(platform.x, platform.y, platform.image);
+    let sprite = this.platforms.create(platform.x, platform.y, 'tiles', platform.image);
+    sprite.scale.setTo(0.6, 0.6);
     this.game.physics.enable(sprite);
 
     if (platform.image === 'ground') {
@@ -236,6 +231,20 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
     sprite.body.allowGravity = false
     sprite.body.immovable = true;
+  };
+
+  PlayState._spawnGround = function(ground) {
+    // Create fill
+    let spriteFill = this.game.add.tileSprite(ground.x, ground.y+36, 6000, 70, 'tiles', ground.imageFill);
+    spriteFill.scale.setTo(0.6, 0.6);
+
+    // Create ground
+    this.ground = this.game.add.tileSprite(ground.x, ground.y, 6000, 70, 'tiles', ground.image);
+    this.ground.scale.setTo(0.6, 0.6);
+    this.game.physics.enable(this.ground);
+    this.ground.body.allowGravity = false
+    this.ground.body.immovable = true;
+    this.game.world.bringToTop(this.ground);
   };
 
   PlayState._spawnEnemyWall = function (x, y, side) {
@@ -315,6 +324,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._handleCollisions = function () {
+    this.game.physics.arcade.collide(this.hero, this.ground, null, this._onCollisionCallback, this);
     this.game.physics.arcade.collide(this.hero, this.platforms, null, this._onCollisionCallback, this);
     this.game.physics.arcade.overlap(this.hero, this.coins, this._onHeroVsCoin, this._onCollisionCallback, this);
     this.game.physics.arcade.overlap(this.hero, this.extraLives, this._onHeroVsExtraLife, this._onCollisionCallback, this);

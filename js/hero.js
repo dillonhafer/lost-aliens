@@ -66,7 +66,7 @@ define(function () {
     this.dead = true;
     this.body.collideWorldBounds = false;
     this.deadAt = this.game.time.now;
-    this.jump();
+    this.body.velocity.y = -600
     this.body.velocity.x = 0;
   };
 
