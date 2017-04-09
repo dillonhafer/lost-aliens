@@ -6,6 +6,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.json('level:1', 'data/level01.json');
 
     this.game.load.image('background', 'images/background.png');
+    this.game.load.image('clouds', 'images/background_clouds.png');
     this.game.load.image('background_green', 'images/background_green.png');
 
     this.game.load.image('ground', 'images/ground.png');
@@ -39,7 +40,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.audio('sfx:door', 'audio/door2.wav');
     this.game.load.audio('sfx:oneUp', 'audio/oneUp2.wav');
     this.game.load.audio('sfx:gameOver', 'audio/gameOver.wav');
-    this.game.load.audio('music:bgm', 'audio/bgm3.mp3');
+    this.game.load.audio('music:bgm', 'audio/bgm5.mp3');
   };
 
   PlayState.toggleFull = function() {
@@ -89,6 +90,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
     if (!this.game.music.bgm.isPlaying) {
       this.game.music.bgm.loop = true;
+      this.game.music.bgm.volume = 0.2;
       this.game.music.bgm.play();
     }
     this._createHud();
@@ -132,6 +134,9 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
   PlayState._loadLevel = function (data) {
     this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
+    if (data.background === 'background') {
+      this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
+    }
     this.platforms  = this.game.add.group();
     this.decorations = this.game.add.group();
     this.extraLives = this.game.add.group();
@@ -273,6 +278,11 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives + space2 + this.time;
     this.keyIcon.frame = this.hasKey ? 1 : 0;
     this.door.frame    = this.hasKey ? 1 : 0;
+
+    if (this.clouds.tilePosition !== null) {
+      this.clouds.tilePosition.x = this.clouds.tilePosition.x - 0.5;
+    }
+
     this._handleCollisions();
     this._handleInput();
     if (this.hero.dead && (this.game.time.now - this.hero.deadAt > 5000)) {
