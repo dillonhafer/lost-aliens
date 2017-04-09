@@ -131,12 +131,12 @@ define(['./spider', './hero'], function (Spider, Hero) {
   PlayState._loadLevel = function (data) {
     this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
     this.platforms  = this.game.add.group();
-    this.coins      = this.game.add.group();
-    this.spiders    = this.game.add.group();
     this.decorations = this.game.add.group();
+
+    this.coins      = this.game.add.group();
     this.bgDecoration = this.game.add.group();
     this.enemyWalls = this.game.add.group();
-    this.enemyWalls.visible = false;
+    this.spiders    = this.game.add.group();
 
     this._spawnDoor(data.door.x, data.door.y)
     this._spawnKey(data.key.x, data.key.y)
