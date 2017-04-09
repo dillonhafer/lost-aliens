@@ -412,7 +412,11 @@ define(['./spider', './hero'], function (Spider, Hero) {
     if (hero.body.velocity.y > 0) { // kill enemies when hero is falling
       this.sfx.stomp.play();
       enemy.die();
-      hero.bounce();
+      let speed = 200;
+      if (this.keys.shift.isDown) {
+        speed = 700;
+      }
+      hero.bounce(speed);
     } else {
       this.game.music.bgm.stop();
       this.game.camera.fade(0x000000, 3000);

@@ -70,9 +70,8 @@ define(function () {
     this.body.velocity.x = 0;
   };
 
-  Hero.prototype.bounce = function () {
-    const BOUNCE_SPEED = 200;
-    this.body.velocity.y = -BOUNCE_SPEED;
+  Hero.prototype.bounce = function (speed) {
+    this.body.velocity.y = -speed;
   };
 
   Hero.prototype.jump = function (speed) {
