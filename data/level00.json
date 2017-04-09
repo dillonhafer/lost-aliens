@@ -9,7 +9,12 @@
         {"image": "grass:4x1", "x": 960, "y": 762},
         {"image": "grass:4x1", "x": 955, "y": 862},
         {"image": "grass:4x1", "x": 950, "y": 962},
-        {"image": "grass:4x1", "x": 945, "y": 1062}
+        {"image": "grass:4x1", "x": 945, "y": 1062},
+
+        {"image": "grass:1x1", "x": 1285, "y": 722},
+        {"image": "grass:1x1", "x": 1485, "y": 625},
+        {"image": "grass:1x1", "x": 1527, "y": 528},
+        {"image": "grass:1x1", "x": 1685, "y": 528}
     ],
     "decorations": [
         {"frame": 2, "x": 459, "y": 936},
