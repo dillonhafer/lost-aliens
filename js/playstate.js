@@ -1,6 +1,7 @@
 define(['./spider', './hero'], function (Spider, Hero) {
   PlayState = {};
   PlayState.preload = function () {
+    this.game.load.bitmapFont('carrier_command', 'fonts/bitmapFonts/carrier_command.png', 'fonts/bitmapFonts/carrier_command.xml');
     this.game.load.json('level:0', 'data/level00.json');
     this.game.load.json('level:1', 'data/level01.json');
 
@@ -346,6 +347,13 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._onHeroVsExtraLife = function(hero, extraLife) {
+    let txt = this.game.add.bitmapText(extraLife.x+20, extraLife.y+20, 'carrier_command', '1up', 16);
+    this.game.physics.arcade.enable([txt]);
+    txt.tint = '0xdf0000';
+    txt.body.velocity.setTo(200, 2);
+    txt.body.collideWorldBounds = false;
+    txt.body.bounce.set(1);
+
     this.sfx.oneUp.play();
     this.lives++;
     extraLife.kill();
