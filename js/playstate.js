@@ -128,8 +128,10 @@ define(['./spider', './hero'], function (Spider, Hero) {
   PlayState._loadLevel = function (data) {
     this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
     this._spawnGround(data.ground);
-    if (data.background === 'background') {
-      this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
+    this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
+
+    if (data.background !== 'background') {
+      this.clouds.visible = false
     }
     this.platforms  = this.game.add.group();
     this.decorations = this.game.add.group();
@@ -219,15 +221,12 @@ define(['./spider', './hero'], function (Spider, Hero) {
     sprite.scale.setTo(0.6, 0.6);
     this.game.physics.enable(sprite);
 
-    if (platform.image === 'ground') {
-      sprite.body.width = 3000;
-      sprite.texture.isTiling = true;
-      sprite.texture.frame.width = 3000;
-      sprite.texture.width = 3000;
+    if (platform.image.includes("Left.png")) {
+      this._spawnEnemyWall(platform.x, platform.y, 'left');
     }
-
-    this._spawnEnemyWall(platform.x, platform.y, 'left');
-    this._spawnEnemyWall(platform.x + sprite.width, platform.y, 'right');
+    if (platform.image.includes("Right.png")) {
+      this._spawnEnemyWall(platform.x + sprite.width, platform.y, 'right');
+    }
 
     sprite.body.allowGravity = false
     sprite.body.immovable = true;
