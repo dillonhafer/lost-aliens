@@ -21,6 +21,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.image('invisible-wall', 'images/invisible_wall.png');
     this.game.load.image('hero_stop', 'images/hero_stopped.png');
     this.game.load.image('key', 'images/key.png');
+    this.game.load.image('extraLife', 'images/extra_life.png');
     this.game.load.spritesheet('icon:key', 'images/key_icon.png', 34, 30);
 
     this.game.load.spritesheet('spider', 'images/spider.png', 42, 32);
@@ -132,6 +133,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
     this.platforms  = this.game.add.group();
     this.decorations = this.game.add.group();
+    this.extraLives = this.game.add.group();
 
     this.coins      = this.game.add.group();
     this.bgDecoration = this.game.add.group();
@@ -144,9 +146,24 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this._spawnCharacters({hero: data.hero, spiders: data.spiders});
     data.coins.forEach(this._spawnCoin, this);
     data.decorations.forEach(this._spawnDecoration, this);
+    data.extraLives.forEach(this._spawnExtraLife, this);
+
+    this.game.world.bringToTop(this.extraLives);
+    this.game.world.bringToTop(this.hero);
 
     const GRAVITY = 1200;
     this.game.physics.arcade.gravity.y = GRAVITY;
+  };
+
+  PlayState._spawnExtraLife = function (extraLife) {
+    let sprite = this.extraLives.create(extraLife.x, extraLife.y, 'extraLife');
+    sprite.anchor.set(0.5, 0.5);
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false
+    sprite.body.immovable = true;
+    sprite.update = function() {
+      this.angle += 2.5;
+    }
   };
 
   PlayState._spawnKey = function (x, y) {
@@ -289,6 +306,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   PlayState._handleCollisions = function () {
     this.game.physics.arcade.collide(this.hero, this.platforms, null, this._onCollisionCallback, this);
     this.game.physics.arcade.overlap(this.hero, this.coins, this._onHeroVsCoin, this._onCollisionCallback, this);
+    this.game.physics.arcade.overlap(this.hero, this.extraLives, this._onHeroVsExtraLife, this._onCollisionCallback, this);
     this.game.physics.arcade.collide(this.spiders, this.platforms);
     this.game.physics.arcade.collide(this.spiders, this.enemyWalls);
     this.game.physics.arcade.overlap(this.hero, this.spiders, this._onHeroVsEnemy, this._onCollisionCallback, this);
@@ -325,6 +343,12 @@ define(['./spider', './hero'], function (Spider, Hero) {
       this.lives++;
     }
     coin.kill();
+  };
+
+  PlayState._onHeroVsExtraLife = function(hero, extraLife) {
+    this.sfx.oneUp.play();
+    this.lives++;
+    extraLife.kill();
   };
 
   PlayState._onCollisionCallback = function(hero, target) {
