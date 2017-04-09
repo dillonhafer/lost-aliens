@@ -279,6 +279,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
       space: Phaser.KeyCode.SPACEBAR,
       up: Phaser.KeyCode.up,
       down: Phaser.KeyCode.down,
+      shift: 16,
     });
 
     this.keys.space.onDown.add(function (pointer) {
@@ -332,9 +333,17 @@ define(['./spider', './hero'], function (Spider, Hero) {
   PlayState._handleInput = function () {
     if (this.hero.dead) { return; }
     if (this.keys.left.isDown) { // move hero left
-      this.hero.move(-1);
+      let speed = -1;
+      if (this.keys.shift.isDown) {
+        speed = -1.5;
+      }
+      this.hero.move(speed);
     } else if (this.keys.right.isDown) { // move hero right
-      this.hero.move(1);
+      let speed = 1;
+      if (this.keys.shift.isDown) {
+        speed = 1.5;
+      }
+      this.hero.move(speed);
     } else { // stop
       this.hero.move(0);
     }
