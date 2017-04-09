@@ -1,8 +1,8 @@
 {
     "background": "background",
     "ground": {
-        "image": "grassMid.png",
-        "imageFill": "grassCenter.png",
+        "image": "grassMidDemo.png",
+        "imageFill": "grassCenterDemo.png",
         "x": 0,
         "y": 1146
     },

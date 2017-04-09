@@ -6,7 +6,7 @@ define(function () {
     this.body.collideWorldBounds = true;
 
     this.animations.add('stop', [0,6], 1, true);
-    this.animations.add('run', [1, 2], 8, true); // 8fps looped
+    this.animations.add('run',  [1,2], 8, true); // 8fps looped
     this.animations.add('jump', [3]);
     this.animations.add('fall', [4]);
     this.animations.add('dead', [5]);

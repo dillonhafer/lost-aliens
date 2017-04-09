@@ -1,8 +1,8 @@
 {
     "background": "background_green",
     "ground": {
-        "image": "dirtMid.png",
-        "imageFill": "dirtCenter.png",
+        "image": "dirtMidDemo.png",
+        "imageFill": "dirtCenterDemo.png",
         "x": 0,
         "y": 1146
     },

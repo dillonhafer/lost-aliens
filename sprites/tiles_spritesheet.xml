@@ -1,4 +1,4 @@
-<TextureAtlas imagePath="tiles_spritesheet.png">
+<TextureAtlas imagePath="sheet.png">
 	<SubTexture name="box.png" x="0" y="864" width="70" height="70"/>
 	<SubTexture name="boxAlt.png" x="0" y="792" width="70" height="70"/>
 	<SubTexture name="boxCoin.png" x="0" y="720" width="70" height="70"/>
@@ -39,6 +39,7 @@
 	<SubTexture name="castleRight.png" x="792" y="72" width="70" height="70"/>
 	<SubTexture name="dirt.png" x="792" y="0" width="70" height="70"/>
 	<SubTexture name="dirtCenter.png" x="720" y="864" width="70" height="70"/>
+	<SubTexture name="dirtCenterDemo.png" x="721" y="864" width="68" height="70"/>
 	<SubTexture name="dirtCenter_rounded.png" x="720" y="792" width="70" height="70"/>
 	<SubTexture name="dirtCliffLeft.png" x="720" y="720" width="70" height="70"/>
 	<SubTexture name="dirtCliffLeftAlt.png" x="720" y="648" width="70" height="70"/>
@@ -56,6 +57,7 @@
 	<SubTexture name="dirtLedgeRight.png" x="842" y="912" width="5" height="18"/>
 	<SubTexture name="dirtLeft.png" x="504" y="432" width="70" height="70"/>
 	<SubTexture name="dirtMid.png" x="504" y="360" width="70" height="70"/>
+	<SubTexture name="dirtMidDemo.png" x="505" y="360" width="68" height="70"/>
 	<SubTexture name="dirtRight.png" x="648" y="504" width="70" height="70"/>
 	<SubTexture name="door_closedMid.png" x="648" y="432" width="70" height="70"/>
 	<SubTexture name="door_closedTop.png" x="648" y="360" width="70" height="70"/>
@@ -65,6 +67,7 @@
 	<SubTexture name="fenceBroken.png" x="648" y="72" width="70" height="70"/>
 	<SubTexture name="grass.png" x="648" y="0" width="70" height="70"/>
 	<SubTexture name="grassCenter.png" x="576" y="864" width="70" height="70"/>
+	<SubTexture name="grassCenterDemo.png" x="577" y="864" width="68" height="70"/>
 	<SubTexture name="grassCenter_rounded.png" x="576" y="792" width="70" height="70"/>
 	<SubTexture name="grassCliffLeft.png" x="576" y="720" width="70" height="70"/>
 	<SubTexture name="grassCliffLeftAlt.png" x="576" y="648" width="70" height="70"/>
@@ -81,7 +84,8 @@
 	<SubTexture name="grassLedgeLeft.png" x="849" y="868" width="5" height="24"/>
 	<SubTexture name="grassLedgeRight.png" x="849" y="894" width="5" height="24"/>
 	<SubTexture name="grassLeft.png" x="504" y="648" width="70" height="70"/>
-	<SubTexture name="grassMid.png" x="504" y="576" width="70" height="70"/>
+	<SubTexture name="grassMid.png" x="504" y="576" width="70" height="70" />
+	<SubTexture name="grassMidDemo.png" x="505" y="576" width="68" height="70" />
 	<SubTexture name="grassRight.png" x="504" y="504" width="70" height="70"/>
 	<SubTexture name="hill_large.png" x="842" y="720" width="48" height="146"/>
 	<SubTexture name="hill_largeAlt.png" x="864" y="0" width="48" height="146"/>
