@@ -38,7 +38,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.audio('sfx:oneUp', 'audio/oneUp2.wav');
     this.game.load.audio('sfx:gameOver', 'audio/gameOver2.wav');
     this.game.load.audio('music:bgm', 'audio/bgm5.mp3');
-    this.game.load.audio('music:title', 'audio/title.mp3');
+    this.game.load.audio('music:title', 'audio/title2.mp3');
   };
 
   PlayState.toggleFull = function() {
@@ -420,7 +420,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
 
     this.game.music.title.loop = true;
-    this.game.music.title.volume = 0.5;
+    this.game.music.title.volume = 0.2;
     this.game.music.title.play();
 
     // Decorations
