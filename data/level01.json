@@ -46,12 +46,16 @@
         {"image": "dirtRight.png", "x": 840, "y": 684}
     ],
     "decorations": [
-        {"frame": 0, "x": 84, "y": 1104}, {"frame": 1, "x": 420, "y": 1104},
-        {"frame": 3, "x": 672, "y": 1104}, {"frame": 4, "x": 595, "y": 1062},
-        {"frame": 2, "x": 142, "y": 978}, {"frame": 1, "x": 168, "y": 978},
-        {"frame": 0, "x": 714, "y": 936},
-        {"frame": 4, "x": 420, "y": 894},
-        {"frame": 1, "x": 515, "y": 726}, {"frame": 3, "x": 525, "y": 726}
+        {"set": "items", "image": "bush.png", "x": 420, "y": 1076},
+        {"set": "items", "image": "plantPurple.png", "x": 700, "y": 908},
+
+        {"set": "tiles", "image": "fence.png", "x": 140, "y": 950},
+        {"set": "items", "image": "bush.png", "x": 160, "y": 950},
+
+        {"set": "items", "image": "plant.png", "x": 420, "y": 866},
+        {"set": "items", "image": "plant.png", "x": 570, "y": 1035},
+        {"set": "items", "image": "mushroomRed.png", "x": 656, "y": 1076},
+        {"set": "items", "image": "plantPurple.png", "x": 64, "y": 1076}
     ],
     "coins": [
         {"x": 231, "y": 1124}, {"x": 273, "y": 1124}, {"x": 315, "y": 1124}, {"x": 357, "y": 1124},

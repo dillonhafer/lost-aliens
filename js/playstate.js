@@ -203,8 +203,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._spawnDecoration = function(decoration) {
-    let sprite = this.decorations.create(decoration.x, decoration.y, 'decoration');
-    sprite.frame = decoration.frame;
+    let sprite = this.decorations.create(decoration.x, decoration.y, decoration.set, decoration.image);
     this.game.physics.enable(sprite);
     sprite.body.allowGravity = false;
   }
@@ -460,8 +459,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
       image: 'grassMidDemo.png',
       imageFill: 'grassCenterDemo.png',
     }
-    // let spriteFill3 = this.game.add.tileSprite(ground.x, ground.y+(70*3), 6000, 70, 'tiles', ground.imageFill);
-    // let spriteFill2 = this.game.add.tileSprite(ground.x, ground.y+(70*2), 6000, 70, 'tiles', ground.imageFill);
+
     this.game.add.tileSprite(ground.x, ground.y+60, 6000, 100, 'tiles', ground.imageFill);
 
     // Create ground
