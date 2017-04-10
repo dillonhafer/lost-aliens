@@ -89,10 +89,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
         gameOver: this.game.add.audio('sfx:gameOver'),
       };
 
-      this.sfx.gameOver.onStop.add(function() {
-        this.game.state.restart(true, false, {level: 'main_menu'});
-      }, this);
-
       if (!this.game.music.bgm.isPlaying) {
         this.game.music.bgm.loop = true;
         this.game.music.bgm.volume = 0.2;
@@ -328,7 +324,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
       this._handleInput();
       if (this.hero.dead && (this.game.time.now - this.hero.deadAt > 5000)) {
         if (this.lives === 0) {
-          this.sfx.gameOver.play();
+          this.game.state.restart(true, false, {level: 'main_menu'});
         } else {
           this.game.state.restart(true, false, {
             level: this.level,
@@ -438,6 +434,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._loadMainMenu = function() {
+    this.game.world.resize(960, 600);
     this.game.camera.flash(0x000000, 1000);
     this.game.add.tileSprite(0, 0, 3000, 1200, 'background');
     this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
