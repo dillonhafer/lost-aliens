@@ -17,37 +17,34 @@ define(function () {
   Hero.prototype.constructor = Hero;
 
   Hero.prototype._getAnimationName = function () {
-    let name = 'stop'; // default animation
-
-    // jumping
     if (this.body.velocity.y < 0) {
-      name = 'jump';
+      return 'jump';
     }
-    // falling
-    else if (this.body.velocity.y >= 0 && !this.body.touching.down) {
-      name = 'fall';
+
+    if (this.body.velocity.y >= 0 && !this.body.touching.down) {
+      return 'fall';
     }
-    else if (this.body.velocity.x !== 0 && this.body.touching.down) {
-      name = 'run';
+
+    if (this.body.velocity.x !== 0 && this.body.touching.down) {
+      return 'run';
     }
 
     if (this.dead) {
-      name = 'dead'
+      return 'dead';
     }
 
-    return name;
+    return 'stop';
   };
 
   Hero.prototype.update = function () {
-    // update sprite animation, if it needs changing
     let animationName = this._getAnimationName();
     if (this.animations.name !== animationName) {
       this.animations.play(animationName);
     }
   };
 
-  Hero.prototype.move = function (direction) {
-    this.body.velocity.x = direction * 200;
+  Hero.prototype.move = function(boost) {
+    this.body.velocity.x = boost * 200;
 
     if (this.body.velocity.x < 0) {
       this.scale.x = -1;

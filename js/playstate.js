@@ -141,7 +141,10 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this._spawnDoor(data.door.x, data.door.y)
     this._spawnKey(data.key.x, data.key.y)
     data.platforms.forEach(this._spawnPlatform, this);
-    this._spawnCharacters({hero: data.hero, spiders: data.spiders});
+
+    this._spawnAlien(data.hero);
+    this._spawnSpiders(data.spiders);
+
     data.coins.forEach(this._spawnCoin, this);
     data.decorations.forEach(this._spawnDecoration, this);
     data.extraLives.forEach(this._spawnExtraLife, this);
@@ -200,16 +203,18 @@ define(['./spider', './hero'], function (Spider, Hero) {
     sprite.body.immovable = true;
   };
 
-  PlayState._spawnCharacters = function (data) {
-    this.hero = new Hero(this.game, data.hero.x, data.hero.y);
+  PlayState._spawnAlien = function(alien) {
+    this.hero = new Hero(this.game, alien.x, alien.y);
     this.game.camera.follow(this.hero, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     this.game.add.existing(this.hero);
+  };
 
-    data.spiders.forEach(function (spider) {
+  PlayState._spawnSpiders = function(spiders) {
+    spiders.forEach(function (spider) {
       const sprite = new Spider(this.game, spider.x, spider.y);
       this.spiders.add(sprite);
     }, this);
-  };
+  }
 
   PlayState._spawnPlatform = function (platform) {
     let sprite = this.platforms.create(platform.x, platform.y, 'tiles', platform.image);
