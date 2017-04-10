@@ -477,13 +477,13 @@ define(['./spider', './hero'], function (Spider, Hero) {
     // Create ground
     this.ground = this.game.add.tileSprite(ground.x, ground.y, 960, 70, 'tiles', ground.image);
 
-    this.bot = this.game.add.sprite(50, 375, 'bot');
-    this.bot.animations.add('run');
-    this.bot.animations.play('run', 42, true);
-
     this.bot2 = this.game.add.sprite(50, 375, 'bot2');
     this.bot2.animations.add('run');
     this.bot2.animations.play('run', 42, true);
+
+    this.bot = this.game.add.sprite(50, 375, 'bot');
+    this.bot.animations.add('run');
+    this.bot.animations.play('run', 42, true);
   }
 
   return PlayState;
