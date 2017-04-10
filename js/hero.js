@@ -4,6 +4,7 @@ define(function () {
     this.anchor.set(0.5, 0.5);
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
+    this.cannotMove = false;
 
     this.animations.add('stop', [0,6], 1, true);
     this.animations.add('run',  [1,2], 8, true); // 8fps looped
@@ -88,6 +89,12 @@ define(function () {
 
   Hero.prototype.stopJumpBoost = function () {
     this.isBoosting = false;
+  };
+
+  Hero.prototype.enterDoor = function() {
+    this.cannotMove = true
+    this.body.collideWorldBounds = false;
+    this.body.velocity.x = 0;
   };
 
   return Hero;

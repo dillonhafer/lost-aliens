@@ -338,7 +338,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._handleInput = function () {
-    if (this.hero.dead) { return; }
+    if (this.hero.dead || this.hero.cannotMove) { return; }
     if (this.keys.left.isDown) { // move hero left
       let speed = -1;
       if (this.keys.shift.isDown) {
@@ -380,13 +380,17 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._onHeroVsDoor = function (hero, door) {
-    this.game.camera.fade(0x000000, 300);
+    this.game.camera.fade(0x000000);
     this.sfx.door.play();
-    this.game.state.restart(true, false, {
-      level: this.level + 1,
-      coinPickupCount: this.coinPickupCount,
-      lives: this.lives
-    });
+    hero.enterDoor();
+
+    this.camera.onFadeComplete.addOnce(function() {
+      this.game.state.restart(true, false, {
+        level: this.level + 1,
+        coinPickupCount: this.coinPickupCount,
+        lives: this.lives
+      });
+    }, this);
   };
 
   PlayState._onHeroVsKey = function(hero, key) {
