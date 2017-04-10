@@ -48,18 +48,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     }
   };
 
-  PlayState.updateTime = function() {
-    if (this.time > 0 ) {
-      this.time--;
-    } else if (!this.hero.dead) {
-      this.game.music.bgm.stop();
-      this.game.camera.fade(0x000000, 5000);
-      this.sfx.dead.play();
-      this.lives--;
-      this.hero.die();
-    }
-  };
-
   PlayState.create = function () {
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     if (this.game.music === undefined) {
@@ -74,7 +62,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     } else {
       this.game.input.onDown.add(this.toggleFull, this);
       this.game.world.resize(3000, 1200);
-      this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
 
       let level = this.game.cache.getJSON('level:'+this.level);
       this._loadLevel(level);
@@ -266,7 +253,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.level = (data.level || 0) % LEVEL_COUNT;
     this.game.renderer.renderSession.roundPixels = true;
     this.coinPickupCount = (data.coinPickupCount || 0);
-    this.time = 300;
     this.lives = (data.lives || 3);
     this.hasKey = false;
     this.keys = this.game.input.keyboard.addKeys({
@@ -337,11 +323,9 @@ define(['./spider', './hero'], function (Spider, Hero) {
       }
     } else {
       const space  = this.coinPickupCount > 9 ? "               " : "                ";
-      const space2 = this.coinPickupCount > 9 ? "                    " : "                    ";
-      this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives + space2 + this.time;
+      this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives;
       this.keyIcon.frame = this.hasKey ? 1 : 0;
       this.door.frame    = this.hasKey ? 1 : 0;
-
 
       this._handleCollisions();
       this._handleInput();
