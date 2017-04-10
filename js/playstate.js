@@ -299,10 +299,22 @@ define(['./spider', './hero'], function (Spider, Hero) {
         this.bot.x = this.bot.x + 3.5;
       }
 
-      if (this.bot2.x > 1000) {
-        this.bot2.x = -70;
-      } else {
-        this.bot2.x = this.bot2.x + 2.5;
+      if ((this.bot2.scale.x == 1 && this.bot2.x >= 300) || (this.bot2.scale.x == -1 && this.bot2.x >= 100) ) {
+        if (this.bot2.scale.x == 1) {
+          this.bot2.x += 70
+        }
+        this.bot2.scale.x = -1;
+        this.bot2.x = this.bot2.x - 4.5;
+      } else if ((this.bot2.x <= 100 && this.bot2.scale.x == -1) || (this.bot2.scale.x == 1 && this.bot2.x < 300)) {
+        if (this.bot2.scale.x == -1) {
+          this.bot2.x -= 70
+        }
+        this.bot2.scale.x = 1;
+        this.bot2.x = this.bot2.x + 4.5;
+      }
+
+      if (this.bot2.x >= 900) {
+      } else if (this.bot2.x < 20){
       }
     } else {
       const space  = this.coinPickupCount > 9 ? "               " : "                ";
