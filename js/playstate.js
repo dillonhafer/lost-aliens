@@ -135,7 +135,7 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._loadLevel = function (data) {
-    this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
+    this.background = this.game.add.tileSprite(0, 0, 3000, 1200, data.background);
     this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
     this._spawnGround(data.ground);
 
@@ -261,6 +261,8 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
   const LEVEL_COUNT = 2;
   PlayState.init = function (data) {
+    this.lastCameraX = 0;
+    this.lastCameraY = 0;
     this.level = (data.level || 0) % LEVEL_COUNT;
     this.game.renderer.renderSession.roundPixels = true;
     this.coinPickupCount = (data.coinPickupCount || 0);
@@ -283,7 +285,28 @@ define(['./spider', './hero'], function (Spider, Hero) {
     }, this);
   };
 
+  PlayState._handleParallax = function() {
+    if (this.background !== undefined) {
+      if (this.game.camera.x < this.lastCameraX) {
+        this.background.tilePosition.x -= 0.3;
+      }
+      if (this.game.camera.x > this.lastCameraX) {
+        this.background.tilePosition.x += 0.3;
+      }
+      if (this.game.camera.y < this.lastCameraY) {
+        this.background.tilePosition.y -= 0.3;
+      }
+      if (this.game.camera.y > this.lastCameraY) {
+        this.background.tilePosition.y += 0.3;
+      }
+    }
+    this.lastCameraX = this.game.camera.x;
+    this.lastCameraY = this.game.camera.y;
+  }
+
   PlayState.update = function () {
+    this._handleParallax();
+
     if (this.clouds.tilePosition !== null) {
       this.clouds.tilePosition.x = this.clouds.tilePosition.x - 0.5;
     }
