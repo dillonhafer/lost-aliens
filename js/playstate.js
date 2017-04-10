@@ -263,12 +263,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
       down: Phaser.KeyCode.down,
       shift: 16,
     });
-
-    this.keys.space.onDown.add(function (pointer) {
-      if (this.hero.jump(600)) {
-        this.sfx.jump.play();
-      }
-    }, this);
   };
 
   PlayState._handleParallax = function() {
@@ -359,6 +353,14 @@ define(['./spider', './hero'], function (Spider, Hero) {
       this.hero.move(speed);
     } else { // stop
       this.hero.move(0);
+    }
+
+    const JUMP_HOLD = 200; // ms
+    if (this.keys.space.downDuration(JUMP_HOLD)) {
+      let didJump = this.hero.jump();
+      if (didJump) { this.sfx.jump.play(); }
+    } else {
+      this.hero.stopJumpBoost();
     }
   };
 

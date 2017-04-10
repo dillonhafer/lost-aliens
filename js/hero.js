@@ -70,18 +70,24 @@ define(function () {
     this.body.velocity.x = 0;
   };
 
-  Hero.prototype.bounce = function (speed) {
+  Hero.prototype.bounce = function(speed) {
     this.body.velocity.y = -speed;
   };
 
-  Hero.prototype.jump = function (speed) {
-    const canJump = this.body.touching.down;
+  Hero.prototype.jump = function() {
+    const JUMP_SPEED = 400;
+    const canJump = this.body.touching.down && !this.dead;
 
-    if (canJump) {
-      this.body.velocity.y = -speed;
+    if (canJump || this.isBoosting) {
+      this.body.velocity.y = -JUMP_SPEED;
+      this.isBoosting = true;
     }
 
     return canJump;
+  };
+
+  Hero.prototype.stopJumpBoost = function () {
+    this.isBoosting = false;
   };
 
   return Hero;
