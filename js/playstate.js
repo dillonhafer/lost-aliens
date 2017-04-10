@@ -8,9 +8,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.atlasXML('tiles', 'sprites/tiles_spritesheet.png', 'sprites/tiles_spritesheet.xml');
     this.game.load.atlasXML('items', 'sprites/items_spritesheet.png', 'sprites/items_spritesheet.xml');
 
-    this.game.load.atlas('bot', 'sprites/p1_walk.png', 'sprites/p1_walk.json');
-    this.game.load.atlas('bot2', 'sprites/p2_walk.png', 'sprites/p2_walk.json');
-
     this.game.load.image('background', 'images/background.png');
     this.game.load.image('clouds', 'images/background_clouds.png');
     this.game.load.image('background_green', 'images/background_green.png');
@@ -37,7 +34,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
     this.game.load.audio('sfx:oneUp', 'audio/oneUp2.wav');
     this.game.load.audio('sfx:gameOver', 'audio/gameOver2.wav');
     this.game.load.audio('music:bgm', 'audio/bgm5.mp3');
-    this.game.load.audio('music:title', 'audio/title2.mp3');
   };
 
   PlayState.toggleFull = function() {
@@ -50,41 +46,33 @@ define(['./spider', './hero'], function (Spider, Hero) {
 
   PlayState.create = function () {
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-    if (this.game.music === undefined) {
-      this.game.music = {
-        bgm: this.game.add.audio('music:bgm'),
-        title: this.game.add.audio('music:title'),
-      }
+    if (this.game.music.bgm === undefined) {
+      this.game.music.bgm = this.game.add.audio('music:bgm')
     }
+    this.game.input.onDown.add(this.toggleFull, this);
+    this.game.world.resize(3000, 1200);
 
-    if (isNaN(this.level)) {
-      this._loadMainMenu();
-    } else {
-      this.game.input.onDown.add(this.toggleFull, this);
-      this.game.world.resize(3000, 1200);
+    let level = this.game.cache.getJSON('level:'+this.level);
+    this._loadLevel(level);
+    this.sfx = {
+      jump: this.game.add.audio('sfx:jump'),
+      coin: this.game.add.audio('sfx:coin'),
+      stomp: this.game.add.audio('sfx:stomp'),
+      dead: this.game.add.audio('sfx:dead'),
+      key: this.game.add.audio('sfx:key'),
+      door: this.game.add.audio('sfx:door'),
+      oneUp: this.game.add.audio('sfx:oneUp'),
+      gameOver: this.game.add.audio('sfx:gameOver'),
+    };
 
-      let level = this.game.cache.getJSON('level:'+this.level);
-      this._loadLevel(level);
-      this.sfx = {
-        jump: this.game.add.audio('sfx:jump'),
-        coin: this.game.add.audio('sfx:coin'),
-        stomp: this.game.add.audio('sfx:stomp'),
-        dead: this.game.add.audio('sfx:dead'),
-        key: this.game.add.audio('sfx:key'),
-        door: this.game.add.audio('sfx:door'),
-        oneUp: this.game.add.audio('sfx:oneUp'),
-        gameOver: this.game.add.audio('sfx:gameOver'),
-      };
-
-      if (!this.game.music.bgm.isPlaying) {
-        this.game.music.bgm.loop = true;
-        this.game.music.bgm.volume = 0.2;
-        this.game.music.bgm.play();
-      }
-      this._createHud();
-
-      this.game.camera.flash(0x000000, 700);
+    if (!this.game.music.bgm.isPlaying) {
+      this.game.music.bgm.loop = true;
+      this.game.music.bgm.volume = 0.2;
+      this.game.music.bgm.play();
     }
+    this._createHud();
+
+    this.game.camera.flash(0x000000, 700);
   };
 
   PlayState.render = function() {
@@ -296,48 +284,22 @@ define(['./spider', './hero'], function (Spider, Hero) {
       this.clouds.tilePosition.x = this.clouds.tilePosition.x - 0.5;
     }
 
-    if (isNaN(this.level)) {
-      if (this.bot.x > 1000) {
-        this.bot.x = -70;
+    const space  = this.coinPickupCount > 9 ? "               " : "                ";
+    this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives;
+    this.keyIcon.frame = this.hasKey ? 1 : 0;
+    this.door.frame    = this.hasKey ? 1 : 0;
+
+    this._handleCollisions();
+    this._handleInput();
+    if (this.hero.dead && (this.game.time.now - this.hero.deadAt > 5000)) {
+      if (this.lives === 0) {
+        this.game.state.start('title');
       } else {
-        this.bot.x = this.bot.x + 3.5;
-      }
-
-      if ((this.bot2.scale.x == 1 && this.bot2.x >= 300) || (this.bot2.scale.x == -1 && this.bot2.x >= 100) ) {
-        if (this.bot2.scale.x == 1) {
-          this.bot2.x += 70
-        }
-        this.bot2.scale.x = -1;
-        this.bot2.x = this.bot2.x - 4.5;
-      } else if ((this.bot2.x <= 100 && this.bot2.scale.x == -1) || (this.bot2.scale.x == 1 && this.bot2.x < 300)) {
-        if (this.bot2.scale.x == -1) {
-          this.bot2.x -= 70
-        }
-        this.bot2.scale.x = 1;
-        this.bot2.x = this.bot2.x + 4.5;
-      }
-
-      if (this.bot2.x >= 900) {
-      } else if (this.bot2.x < 20){
-      }
-    } else {
-      const space  = this.coinPickupCount > 9 ? "               " : "                ";
-      this.coinFont.text  = 'x' + this.coinPickupCount + space + "x" + this.lives;
-      this.keyIcon.frame = this.hasKey ? 1 : 0;
-      this.door.frame    = this.hasKey ? 1 : 0;
-
-      this._handleCollisions();
-      this._handleInput();
-      if (this.hero.dead && (this.game.time.now - this.hero.deadAt > 5000)) {
-        if (this.lives === 0) {
-          this.game.state.restart(true, false, {level: 'main_menu'});
-        } else {
-          this.game.state.restart(true, false, {
-            level: this.level,
-            coinPickupCount: this.coinPickupCount,
-            lives: this.lives
-          });
-        }
+        this.game.state.restart(true, false, {
+          level: this.level,
+          coinPickupCount: this.coinPickupCount,
+          lives: this.lives
+        });
       }
     }
   };
@@ -385,10 +347,12 @@ define(['./spider', './hero'], function (Spider, Hero) {
   };
 
   PlayState._onHeroVsDoor = function (hero, door) {
-    this.game.camera.fade(0x000000);
-    this.sfx.door.play();
-    hero.enterDoor();
+    if (hero.cannotMove) { return; }
 
+    hero.enterDoor();
+    this.sfx.door.play();
+
+    this.game.camera.fade(0x000000);
     this.camera.onFadeComplete.addOnce(function() {
       this.game.state.restart(true, false, {
         level: this.level + 1,
@@ -450,59 +414,6 @@ define(['./spider', './hero'], function (Spider, Hero) {
       hero.die();
     }
   };
-
-  PlayState._loadMainMenu = function() {
-    this.game.world.resize(960, 600);
-    this.game.camera.flash(0x000000, 1000);
-    this.game.add.tileSprite(0, 0, 3000, 1200, 'background');
-    this.clouds = this.game.add.tileSprite(0, 0, 3000, 1200, 'clouds');
-
-    this.game.music.title.loop = true;
-    this.game.music.title.volume = 0.2;
-    this.game.music.title.play();
-
-    // Decorations
-    this.game.add.sprite(20, 400, 'items', 'bush.png');
-    this.game.add.sprite(488, 400, 'items', 'rock.png');
-    this.game.add.sprite(288, 330, 'tiles', 'hill_largeAlt.png');
-    this.game.add.sprite(328, 345, 'tiles', 'hill_largeAlt.png');
-
-    let shadow = this.game.add.bitmapText(this.game.world.centerX-350, 201, 'carrier_command', 'Little Lost Aliens', 32);
-    shadow.tint = "0x14909a";
-    this.game.add.bitmapText(this.game.world.centerX-350, 200, 'carrier_command', 'Little Lost Aliens', 32);
-
-    button = this.game.add.button(this.game.world.centerX - 21, 400, 'tiles', function() {
-      this.game.music.title.stop();
-      this.game.state.restart(true, false, {
-        level: 0,
-        coinPickupCount: 0,
-        lives: 3,
-        gameOver: true,
-      });
-    }, this, 'signRight.png', 'signRight.png');
-
-    this.game.add.bitmapText(this.game.world.centerX-12, 422, 'carrier_command', 'start', 9);
-
-    let ground = {
-      x: 0,
-      y: 469,
-      image: 'grassMidDemo.png',
-      imageFill: 'grassCenterDemo.png',
-    }
-
-    this.game.add.tileSprite(ground.x, ground.y+60, 6000, 100, 'tiles', ground.imageFill);
-
-    // Create ground
-    this.ground = this.game.add.tileSprite(ground.x, ground.y, 960, 70, 'tiles', ground.image);
-
-    this.bot2 = this.game.add.sprite(50, 375, 'bot2');
-    this.bot2.animations.add('run');
-    this.bot2.animations.play('run', 42, true);
-
-    this.bot = this.game.add.sprite(50, 375, 'bot');
-    this.bot.animations.add('run');
-    this.bot.animations.play('run', 42, true);
-  }
 
   return PlayState;
 });
